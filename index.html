@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberRace PRO</title>
+    <title>FORÇA LIVRE, a lista</title>
     <style>
-        /* ===== MELHORIA 1: NOVO DESIGN CYBERPUNK APRIMORADO ===== */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
         :root {
@@ -45,8 +44,16 @@
 
         /* ===== MELHORIA 3: ANIMAÇÕES REVISADAS ===== */
         @keyframes cyber-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.02); opacity: 1; }
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.9; /* Aumentei a opacidade base */
+                box-shadow: 0 0 20px rgba(188, 19, 254, 0.2); /* Reduzi a intensidade do shadow */
+            }
+            50% { 
+                transform: scale(1.0001); /* Reduzi a escala do pulso */
+                opacity: 0.95;
+                box-shadow: 0 0 25px rgba(188, 19, 254, 0.3); 
+            }
         }
 
         .container {
@@ -62,8 +69,8 @@
 
         /* ===== MELHORIA 4: FORMULÁRIO APRIMORADO ===== */
         .input-group {
-            position: relative;
-            margin: 25px 0;
+            position: center;
+            margin: 10px 20px;
         }
 
         textarea {
@@ -82,6 +89,8 @@
             outline: none;
             box-shadow: 0 0 25px var(--neon-purple);
             background: rgba(255, 255, 255, 0.08);
+            box-sizing: border-box;
+            margin: 0 15px;
         }
 
         /* ===== MELHORIA 5: BOTÕES COM EFEITO NEON ===== */
@@ -170,7 +179,7 @@
 <body>
     <header class="cyber-header">
         <img src="logo.png" class="cyber-logo" alt="CyberRace Logo">
-        <h1>CYBER RACE PRO<br><span style="font-size:0.8em;">VIRTUAL RACING LEAGUE</span></h1>
+        <h1>#FORÇA LIVRE<br><span style="font-size:0.8em;">Drag Racing</span></h1>
     </header>
 
     <main class="container">
@@ -181,7 +190,7 @@
 
         <div style="text-align: center;">
             <button class="cyber-button" onclick="sortearPares()">🎮 INICIAR SORTEIO</button>
-            <button class="cyber-button" onclick="limparDados()">⚠️ REINICIAR SISTEMA</button>
+            <button class="cyber-button" onclick="limparDados()">⚠️ REINICIAR</button>
         </div>
 
         <section class="race-results">
@@ -224,7 +233,8 @@
             
             if(savedData) {
                 const data = JSON.parse(savedData);
-                document.getElementById('resultado').textContent = data.resultado;
+                // Alterar de textContent para innerHTML
+                document.getElementById('resultado').innerHTML = data.resultado; // ← Esta é a linha crucial
                 document.getElementById('timestamp').textContent = data.timestamp;
                 document.getElementById('copyBtn').style.display = 'block';
             }
@@ -248,22 +258,33 @@
             }
             
             const nomes = validateNames(nomesInput);
+            
+            // Verificação de números mínimos e duplicados
             if(nomes.length < 2) {
                 showNotification('❌ Mínimo de 2 pilotos!', 'error');
+                return;
+            }
+            if(new Set(nomes).size !== nomes.length) {
+                showNotification('❌ Nomes duplicados encontrados!', 'error');
                 return;
             }
 
             // Salva dados
             localStorage.setItem('listaPilotos', nomesInput);
 
-            // Embaralha
-            const shuffled = [...nomes].sort(() => Math.random() - 0.5);
+            // Embaralha com algoritmo Fisher-Yates
+            const shuffled = [...nomes];
+            for(let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
             let resultado = '';
 
-            // Cria pares
+            // Cria pares garantindo HTML válido
             for(let i = 0; i < shuffled.length; i += 2) {
-                const piloto1 = shuffled[i];
-                const piloto2 = shuffled[i + 1] || '[AGUARDANDO OPONENTE]';
+                const piloto1 = shuffled[i].trim();
+                const piloto2 = (shuffled[i + 1] || '[AGUARDANDO OPONENTE]').trim();
                 resultado += `<div class="vs-card">${piloto1} <span style="color:var(--neon-purple);">⚡</span> ${piloto2}</div>`;
             }
 
@@ -277,13 +298,14 @@
                 minute: '2-digit'
             })}`;
 
-            document.getElementById('resultado').innerHTML = resultado;
+            const resultadoElement = document.getElementById('resultado');
+            resultadoElement.innerHTML = resultado;
             document.getElementById('timestamp').textContent = timestamp;
             document.getElementById('copyBtn').style.display = 'block';
 
-            // Salva no histórico
+            // Salva no histórico com dados formatados
             localStorage.setItem('ultimoSorteio', JSON.stringify({
-                resultado: resultado,
+                resultado: resultadoElement.innerHTML, // Salva o HTML renderizado
                 timestamp: timestamp
             }));
 
