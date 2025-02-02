@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberRace Sorteio</title>
+    <title>CyberRace PRO</title>
     <style>
+        /* ===== MELHORIA 1: NOVO DESIGN CYBERPUNK APRIMORADO ===== */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
         :root {
             --neon-purple: #bc13fe;
             --light-purple: #d86aff;
             --dark-bg: #0a0a0f;
+            --cyber-gradient: linear-gradient(45deg, #bc13fe, #6a00ff);
         }
 
         body {
@@ -22,229 +24,304 @@
             color: var(--light-purple);
         }
 
+        /* ===== MELHORIA 2: CABEÇALHO DINÂMICO COM EFEITOS ===== */
         .cyber-header {
             display: flex;
             align-items: center;
             margin-bottom: 2rem;
+            padding: 15px;
+            background: rgba(11, 11, 20, 0.9);
+            border-radius: 8px;
+            border: 1px solid var(--neon-purple);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
         }
 
         .cyber-logo {
-            height: 50px;
-            margin-right: 20px;
-            filter: drop-shadow(0 0 5px var(--neon-purple));
-            transition: transform 0.3s;
+            height: 60px;
+            margin-right: 25px;
+            filter: drop-shadow(0 0 10px var(--neon-purple));
+            transition: transform 0.3s ease;
+        }
+
+        /* ===== MELHORIA 3: ANIMAÇÕES REVISADAS ===== */
+        @keyframes cyber-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.02); opacity: 1; }
         }
 
         .container {
             background: linear-gradient(145deg, #1a1a2e 0%, #0a0a1a 100%);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid var(--neon-purple);
-            box-shadow: 0 0 15px rgba(188, 19, 254, 0.2);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.3);
+            animation: cyber-pulse 4s infinite;
             position: relative;
             overflow: hidden;
         }
 
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin: 15px 0;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--neon-purple);
-            color: var(--light-purple);
-            font-family: 'Orbitron', sans-serif;
-            transition: all 0.3s;
-            font-size: 14px;
+        /* ===== MELHORIA 4: FORMULÁRIO APRIMORADO ===== */
+        .input-group {
+            position: relative;
+            margin: 25px 0;
         }
 
-        textarea::placeholder {
-            color: rgba(216, 106, 255, 0.5);
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--neon-purple);
+            color: var(--light-purple);
+            font-size: 16px;
+            transition: all 0.3s;
+            border-radius: 8px;
         }
 
         textarea:focus {
             outline: none;
-            box-shadow: 0 0 10px var(--neon-purple);
+            box-shadow: 0 0 25px var(--neon-purple);
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        button {
-            background: linear-gradient(45deg, var(--neon-purple), #6a00ff);
+        /* ===== MELHORIA 5: BOTÕES COM EFEITO NEON ===== */
+        .cyber-button {
+            background: var(--cyber-gradient);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 30px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            margin: 5px;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
+            margin: 10px;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s;
         }
 
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 0 12px var(--neon-purple);
+        .cyber-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            transition: all 0.5s;
         }
 
-        #resultado {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-            white-space: pre-wrap;
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--neon-purple);
+        }
+
+        /* ===== MELHORIA 6: RESULTADOS ESTILIZADOS ===== */
+        .race-results {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
             border: 1px solid var(--neon-purple);
-            color: var(--light-purple);
-            font-size: 15px;
         }
 
-        .timestamp {
-            color: rgba(216, 106, 255, 0.8);
-            font-size: 0.8em;
-            margin-top: 15px;
-            text-align: right;
-        }
-
-        .cyber-title {
-            color: var(--neon-purple);
-            text-shadow: 0 0 8px rgba(188, 19, 254, 0.3);
-            margin: 0;
-            font-size: 1.4em;
-        }
-
-        @keyframes subtle-glitch {
-            0%, 100% { transform: translate(0); }
-            25% { transform: translate(-0.5px, 0.5px); }
-            50% { transform: translate(0.5px, -0.5px); }
-            75% { transform: translate(-0.5px, -0.5px); }
-        }
-
-        .glitch {
-            animation: subtle-glitch 3s infinite;
-            animation-timing-function: ease-in-out;
-        }
-
-        .instructions {
-            color: rgba(216, 106, 255, 0.7);
-            font-size: 0.9em;
+        .vs-card {
+            padding: 15px;
             margin: 10px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--neon-purple);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .vs-card:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== MELHORIA 7: SISTEMA DE NOTIFICAÇÃO ===== */
+        .cyber-notification {
+            position: fixed;
+            top: 30px;
+            right: -300px;
+            background: rgba(11, 11, 20, 0.95);
+            border: 1px solid var(--neon-purple);
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: var(--light-purple);
+            backdrop-filter: blur(5px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.3);
+        }
+
+        /* ===== MELHORIA 8: FOOTER DINÂMICO ===== */
+        .cyber-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: rgba(216, 106, 255, 0.7);
         }
     </style>
 </head>
 <body>
-    <div class="cyber-header">
+    <header class="cyber-header">
         <img src="logo.png" class="cyber-logo" alt="CyberRace Logo">
-        <h1 class="cyber-title">CYBER RACE<br>CHALLENGE</h1>
-    </div>
+        <h1>CYBER RACE PRO<br><span style="font-size:0.8em;">VIRTUAL RACING LEAGUE</span></h1>
+    </header>
 
-    <div class="container">
-        <h2 class="glitch">CADASTRO DE PILOTOS</h2>
-        <div class="instructions">Separe os nomes com vírgulas. Exemplo:<br>Piloto 1, Piloto 2, Piloto 3</div>
-        <textarea id="nomes" placeholder="Digite os nomes aqui..."></textarea>
-        
-        <div>
-            <button onclick="sortearPares()">INICIAR SORTEIO</button>
-            <button onclick="limparDados()">REINICIAR TUDO</button>
+    <main class="container">
+        <section class="input-group">
+            <h2>👾 CADASTRO DE PILOTOS</h2>
+            <textarea id="nomes" placeholder="Insira os nomes separados por vírgula..."></textarea>
+        </section>
+
+        <div style="text-align: center;">
+            <button class="cyber-button" onclick="sortearPares()">🎮 INICIAR SORTEIO</button>
+            <button class="cyber-button" onclick="limparDados()">⚠️ REINICIAR SISTEMA</button>
         </div>
 
-        <h3 class="glitch">CORRIDAS GERADAS:</h3>
-        <div id="resultado"></div>
-        <button onclick="copiarTexto()" id="copyBtn" style="display: none;">COPIAR PARA WHATSAPP</button>
-        <div class="timestamp" id="timestamp"></div>
-    </div>
+        <section class="race-results">
+            <h3>🏁 CORRIDAS GERADAS:</h3>
+            <div id="resultado"></div>
+            <button class="cyber-button" onclick="copiarTexto()" id="copyBtn" style="display: none; margin-top:20px;">
+                📱 COPIAR PARA WHATSAPP
+            </button>
+            <div id="timestamp" class="cyber-footer"></div>
+        </section>
+    </main>
 
     <script>
-        window.onload = function() {
+        // ===== MELHORIA 9: SISTEMA DE NOTIFICAÇÃO =====
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `cyber-notification ${type}`;
+            notification.innerHTML = `▷ ${message}`;
+            document.body.appendChild(notification);
+
+            // Animação de entrada
+            setTimeout(() => notification.style.right = '30px', 100);
+            
+            // Animação de saída
+            setTimeout(() => {
+                notification.style.right = '-300px';
+                setTimeout(() => notification.remove(), 1000);
+            }, 3000);
+        }
+
+        // ===== MELHORIA 10: GERENCIAMENTO DE ESTADO =====
+        function loadSavedData() {
             const savedData = localStorage.getItem('ultimoSorteio');
             const savedNomes = localStorage.getItem('listaPilotos');
             
             if(savedNomes) {
                 document.getElementById('nomes').value = savedNomes;
+                showNotification('Dados anteriores carregados!', 'success');
             }
             
             if(savedData) {
                 const data = JSON.parse(savedData);
                 document.getElementById('resultado').textContent = data.resultado;
                 document.getElementById('timestamp').textContent = data.timestamp;
-                document.getElementById('copyBtn').style.display = 'inline-block';
+                document.getElementById('copyBtn').style.display = 'block';
             }
         }
 
-        function sortearPares() {
-            const nomesInput = document.getElementById('nomes').value;
-            if(!nomesInput) {
-                alert('Por favor, insira os nomes dos pilotos!');
-                return;
-            }
-            
-            localStorage.setItem('listaPilotos', nomesInput);
-            
-            const nomes = nomesInput.split(',')
+        // ===== MELHORIA 11: VALIDAÇÃO DE ENTRADA =====
+        function validateNames(input) {
+            return input.split(',')
                 .map(nome => nome.trim())
                 .filter(nome => nome.length > 0);
+        }
+
+        // ===== MELHORIA 12: SORTEIO AUTOMATIZADO =====
+        function sortearPares() {
+            const nomesInput = document.getElementById('nomes').value;
             
-            if(nomes.length === 0) {
-                alert('Nenhum nome válido encontrado!');
+            // Validação
+            if(!nomesInput) {
+                showNotification('❌ Insira os nomes dos pilotos!', 'error');
+                return;
+            }
+            
+            const nomes = validateNames(nomesInput);
+            if(nomes.length < 2) {
+                showNotification('❌ Mínimo de 2 pilotos!', 'error');
                 return;
             }
 
-            const shuffled = embaralhar([...nomes]);
+            // Salva dados
+            localStorage.setItem('listaPilotos', nomesInput);
+
+            // Embaralha
+            const shuffled = [...nomes].sort(() => Math.random() - 0.5);
             let resultado = '';
-            
+
+            // Cria pares
             for(let i = 0; i < shuffled.length; i += 2) {
                 const piloto1 = shuffled[i];
-                const piloto2 = (i + 1 < shuffled.length) ? shuffled[i + 1] : '[SEM OPONENTE]';
-                resultado += `${piloto1} ⚡ ${piloto2}\n`;
+                const piloto2 = shuffled[i + 1] || '[AGUARDANDO OPONENTE]';
+                resultado += `<div class="vs-card">${piloto1} <span style="color:var(--neon-purple);">⚡</span> ${piloto2}</div>`;
             }
 
+            // Atualiza interface
             const agora = new Date();
-            const timestamp = `🕒 Gerado em ${agora.toLocaleDateString('pt-BR', { 
-                day: '2-digit', 
-                month: 'short', 
+            const timestamp = `🕹️ Sorteio realizado em ${agora.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: 'short',
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             })}`;
 
-            document.getElementById('resultado').textContent = resultado;
+            document.getElementById('resultado').innerHTML = resultado;
             document.getElementById('timestamp').textContent = timestamp;
-            document.getElementById('copyBtn').style.display = 'inline-block';
+            document.getElementById('copyBtn').style.display = 'block';
 
+            // Salva no histórico
             localStorage.setItem('ultimoSorteio', JSON.stringify({
                 resultado: resultado,
                 timestamp: timestamp
             }));
+
+            showNotification('🎉 Sorteio realizado com sucesso!', 'success');
         }
 
-        function embaralhar(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
+        // ===== MELHORIA 13: SISTEMA DE CÓPIA INTELIGENTE =====
         function copiarTexto() {
-            const texto = document.getElementById('resultado').textContent;
-            const timestamp = document.getElementById('timestamp').textContent;
-            const textoCompleto = `*FORÇA LIVRE #A Lista🇧🇷*\n\n${texto}\n${timestamp}`;
+            const corridas = document.querySelectorAll('.vs-card');
+            let texto = '*FORÇA LIVRE #A Lista🇧🇷*\n\n';
             
-            navigator.clipboard.writeText(textoCompleto).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.style.opacity = '0.7';
-                setTimeout(() => btn.style.opacity = '1', 500);
+            corridas.forEach(corrida => {
+                texto += `${corrida.textContent.replace(/⚡/g, 'VS')}\n`;
+            });
+
+            texto += `\n${document.getElementById('timestamp').textContent}`;
+
+            navigator.clipboard.writeText(texto).then(() => {
+                showNotification('✅ Texto copiado com sucesso!', 'success');
             }).catch(err => {
-                console.error('Erro ao copiar:', err);
+                showNotification('❌ Erro ao copiar texto!', 'error');
             });
         }
 
+        // ===== MELHORIA 14: LIMPEZA SEGURA =====
         function limparDados() {
-            if(confirm('Tem certeza que deseja apagar todos os dados?')) {
+            if(confirm('⚠️ ATENÇÃO: Isso apagará todos os dados permanentemente!\n\nConfirma?')) {
                 localStorage.clear();
                 document.getElementById('nomes').value = '';
-                document.getElementById('resultado').textContent = '';
+                document.getElementById('resultado').innerHTML = '';
                 document.getElementById('timestamp').textContent = '';
                 document.getElementById('copyBtn').style.display = 'none';
+                showNotification('♻️ Sistema reiniciado com sucesso!', 'success');
             }
         }
+
+        // Inicialização
+        window.onload = loadSavedData;
     </script>
 </body>
 </html>
